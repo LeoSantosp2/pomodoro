@@ -4,6 +4,8 @@ import { secondsToTime } from '../utils/seconds-to-time';
 import { Button } from './button';
 import { Timer } from './timer';
 
+import useLocalStorage from '../hooks/use-localStorage';
+
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const bellStart = require('../sounds/bell-start.mp3');
 
@@ -28,9 +30,15 @@ export function PomodoroTimer(props: Props) {
     const [cyclesQtdManager, setCyclesQtdManager] = useState(
         new Array(props.cycles - 1).fill(true),
     );
-    const [completedCycles, setCompletedCycles] = useState(0);
-    const [fullWorkingTime, setFullWorkingTime] = useState(0);
-    const [numberOfPomodoros, setNumberOfPomodoros] = useState(0);
+    const [completedCycles, setCompletedCycles] = useLocalStorage('cycles', 0);
+    const [fullWorkingTime, setFullWorkingTime] = useLocalStorage(
+        'fullWorkingTime',
+        0,
+    );
+    const [numberOfPomodoros, setNumberOfPomodoros] = useLocalStorage(
+        'numberOfPomodoros',
+        0,
+    );
 
     useInterval(
         () => {
